@@ -1,28 +1,28 @@
 <h1>lex file</h1>
 <p>
     %{<br>
-    #include<stdio.h><br>
-        #include"y.tab.h"<br>
-        %}<br>
-        verb play|is|am|are|was|were|be|being|do|does<br>
-        adverb very|simple|gently|calmly<br>
-        preposition to|from|above<br>
-        conjunction if|then|and<br>
-        adjective their|my|your<br>
-        pronoun I|you|he|she<br>
-        noun [a-zA-Z]+<br>
-        <br><br>
-        %%<br>
-        {verb} return VERB;<br>
-        {adverb} return ADVERB;<br>
-        {preposition} return PREPOSITION;<br>
-        {conjunction} return CONJUNCTION;<br>
-        {adjective} return ADJECTIVE;<br>
-        {pronoun} return PRONOUN;<br>
-        {noun} return NOUN;<br>
-        "," return COMMA;<br>
-        "\n" return NL;<br>
-        %%<br>
+    #include&lt stdio.h><br>
+    #include"y.tab.h"<br>
+    %}<br>
+    verb play|is|am|are|was|were|be|being|do|does<br>
+    adverb very|simple|gently|calmly<br>
+    preposition to|from|above<br>
+    conjunction if|then|and<br>
+    adjective their|my|your<br>
+    pronoun I|you|he|she<br>
+    noun [a-zA-Z]+<br>
+    <br><br>
+    %%<br>
+    {verb} return VERB;<br>
+    {adverb} return ADVERB;<br>
+    {preposition} return PREPOSITION;<br>
+    {conjunction} return CONJUNCTION;<br>
+    {adjective} return ADJECTIVE;<br>
+    {pronoun} return PRONOUN;<br>
+    {noun} return NOUN;<br>
+    "," return COMMA;<br>
+    "\n" return NL;<br>
+    %%<br>
 </p>
 
 <h1>
@@ -31,45 +31,44 @@
 </h1>
 <p>
     %{<br>
-    #include<stdlib.h><br>
-        #include<stdio.h><br>
-            int yylex();<br>
-            int yyerror();<br>
-            %}<br>
-            %token VERB ADVERB ADJECTIVE PREPOSITION CONJUNCTION PRONOUN NOUN COMMA NL;<br>
-            %%<br>
-            <br>
-            sentence: simplesentence NL {printf("parsed a simple sentence. \n");exit(0);}<br>
-            | compoundsentence NL {printf("parsed a compound sentence. \n");exit(0);}<br>
-            ;<br>
-            simplesentence: subject verb object<br>
-            | subject verb object prepphrase<br>
-            ;<br>
-            compoundsentence: simplesentence CONJUNCTION simplesentencev
-            | compoundsentence CONJUNCTION simplesentence<br>
-            ;<br>
-            subject: NOUN<br>
-            |PRONOUN<br>
-            |ADJECTIVE subject<br>
-            ;<br>
-            verb: VERB<br>
-            |ADVERB VERB<br>
-            |verb VERB<br>
-            ;<br>
-            object: NOUN<br>
-            |ADJECTIVE object<br>
-            ;<br>
-            prepphrase: PREPOSITION NOUN<br>
-            ;<br>
-            %%<br>
-            int main(){<br>
-            yyparse();<br>
-            }<br>
-            int yyerror(){<br>
-            printf("Invalid Statement");<br>
-            }<br>
-            int yywrap(){<br>
-            return 1;<br>
-            }<br>
-
+    #include&lt stdlib.h><br>
+    #include&lt stdio.h><br>
+    int yylex();<br>
+    int yyerror();<br>
+    %}<br>
+    %token VERB ADVERB ADJECTIVE PREPOSITION CONJUNCTION PRONOUN NOUN COMMA NL;<br>
+    %%<br>
+    <br>
+    sentence: simplesentence NL {printf("parsed a simple sentence. \n");exit(0);}<br>
+    | compoundsentence NL {printf("parsed a compound sentence. \n");exit(0);}<br>
+    ;<br>
+    simplesentence: subject verb object<br>
+    | subject verb object prepphrase<br>
+    ;<br>
+    compoundsentence: simplesentence CONJUNCTION simplesentencev
+    | compoundsentence CONJUNCTION simplesentence<br>
+    ;<br>
+    subject: NOUN<br>
+    |PRONOUN<br>
+    |ADJECTIVE subject<br>
+    ;<br>
+    verb: VERB<br>
+    |ADVERB VERB<br>
+    |verb VERB<br>
+    ;<br>
+    object: NOUN<br>
+    |ADJECTIVE object<br>
+    ;<br>
+    prepphrase: PREPOSITION NOUN<br>
+    ;<br>
+    %%<br>
+    int main(){<br>
+    yyparse();<br>
+    }<br>
+    int yyerror(){<br>
+    printf("Invalid Statement");<br>
+    }<br>
+    int yywrap(){<br>
+    return 1;<br>
+    }<br>
 </p>

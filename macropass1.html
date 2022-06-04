@@ -73,63 +73,63 @@
     {<br>
     StringTokenizer st=new StringTokenizer(s);<br>
     String str[]=new String[st.countTokens()];<br>
-    for(i=0;i<str.length;i++)<br>
-        str[i]=st.nextToken();<br>
-        mnt[mntc][0]=(mntc+1)+""; //mnt formation<br>
-        mnt[mntc][1]=str[0];<br>
-        mnt[mntc++][2]=(++mdtc)+"";<br>
-        st=new StringTokenizer(str[1],","); //tokenizing the arguments<br>
-        String string[]=new String[st.countTokens()];<br>
-        for(i=0;i<string.length;i++)<br>
-            {
-            string[i]=st.nextToken();<br>
-            ala[alac][0]=alac+""; //ala table formation<br>
-            index=string[i].indexOf("=");<br>
-            if(index!=-1)<br>
-            ala[alac++][1]=string[i].substring(0,index);<br>
-            else<br>
-            ala[alac++][1]=string[i];<br>
-            }<br>
-            }<br>
-            else<br>
-            { <br>
-            index=s.indexOf("&");<br>
-            substring=s.substring(index);<br>
-            for(i=0;i<alac;i++)<br>
-                if(ala[i][1].equals(substring))<br>
-                s=s.replaceAll(substring,"#"+ala[i][0]);<br>
-                }<br>
-                mdt[mdtc-1][0]=s;<br>
-                }<br>
-                mdt[mdtc-1][0]=s;<br>
-                }<br>
-                else<br>
-                {<br>
-                output.write(s);<br>
-                output.newLine();<br>
-                }<br>
-                }<br>
-                output.close();<br>
-                }<br>
-                catch(FileNotFoundException ex)<br>
-                {<br>
-                System.out.println("UNABLE TO END FILE ");<br>
-                }<br>
-                catch(IOException e)<br>
-                {<br>
-                e.printStackTrace();<br>
-                }<br>
-                }<br>
-                static void display(String a[][],int n,int m)<br>
-                {<br>
-                int i,j;<br>
-                for(i=0;i<n;i++)<br>
-                    {<br>
-                    for(j=0;j<m;j++)<br>
-                        System.out.print(a[i][j]+" ");<br>
-                        System.out.println();<br>
-                        }<br>
-                        }<br>
-                        }<br>
+    for(i=0;i&lt str.length;i++)<br>
+    str[i]=st.nextToken();<br>
+    mnt[mntc][0]=(mntc+1)+""; //mnt formation<br>
+    mnt[mntc][1]=str[0];<br>
+    mnt[mntc++][2]=(++mdtc)+"";<br>
+    st=new StringTokenizer(str[1],","); //tokenizing the arguments<br>
+    String string[]=new String[st.countTokens()];<br>
+    for(i=0;i&lt string.length;i++)<br>
+    {
+    string[i]=st.nextToken();<br>
+    ala[alac][0]=alac+""; //ala table formation<br>
+    index=string[i].indexOf("=");<br>
+    if(index!=-1)<br>
+    ala[alac++][1]=string[i].substring(0,index);<br>
+    else<br>
+    ala[alac++][1]=string[i];<br>
+    }<br>
+    }<br>
+    else<br>
+    { <br>
+    index=s.indexOf("&");<br>
+    substring=s.substring(index);<br>
+    for(i=0;i&lt alac;i++)<br>
+    if(ala[i][1].equals(substring))<br>
+    s=s.replaceAll(substring,"#"+ala[i][0]);<br>
+    }<br>
+    mdt[mdtc-1][0]=s;<br>
+    }<br>
+    mdt[mdtc-1][0]=s;<br>
+    }<br>
+    else<br>
+    {<br>
+    output.write(s);<br>
+    output.newLine();<br>
+    }<br>
+    }<br>
+    output.close();<br>
+    }<br>
+    catch(FileNotFoundException ex)<br>
+    {<br>
+    System.out.println("UNABLE TO END FILE ");<br>
+    }<br>
+    catch(IOException e)<br>
+    {<br>
+    e.printStackTrace();<br>
+    }<br>
+    }<br>
+    static void display(String a[][],int n,int m)<br>
+    {<br>
+    int i,j;<br>
+    for(i=0;i&lt n;i++)<br>
+    {<br>
+    for(j=0;j&lt m;j++)<br>
+    System.out.print(a[i][j]+" ");<br>
+    System.out.println();<br>
+    }<br>
+    }<br>
+    }<br>
 
 </p>

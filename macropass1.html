@@ -1,0 +1,135 @@
+<h1>
+    input file
+</h1>
+<p>
+    MACRO <br>
+    INCR1 &FIRST,&SECOND=DATA9<br>
+    A 1,&FIRST<br>
+    L 2,&SECOND<br>
+    MEND<br>
+    MACRO<br>
+    INCR2 &ARG1,&ARG2=DATA5<br>
+    L 3,&ARG1<br>
+    ST 4,&ARG2<br>
+    MEND<br>
+    PRG2 START<br>
+    USING *,BASE<br>
+    INCR1 DATA1<br>
+    INCR2 DATA3,DATA4<br>
+    FOUR DC F'4'<br>
+    FIVE DC F'5'<br>
+    BASE EQU 8<br>
+    TEMP DS 1F<br>
+    DROP 8<br>
+    END<br>
+
+</p>
+
+<h1>
+    Java code
+</h1>
+<p>
+    import java.util.*; <br>
+    import java.io.*;<br>
+    public class macro {<br>
+    static String mnt[][]=new String[5][3]; //assuming 5 macros in 1 program<br>
+    static String ala[][]=new String[10][2]; //assuming 2 arguments in each macro<br>
+    static String mdt[][]=new String[20][1]; //assuming 4 LOC for each macro<br>
+    static int mntc=0,mdtc=0,alac=0;<br>
+    public static void main(String args[])<br>
+    {<br>
+    pass1();<br>
+    System.out.println("\n*********PASS-1 MACROPROCESSOR***********\n");<br>
+    System.out.println("MACRO NAME TABLE (MNT)\n");<br>
+    System.out.println("i macro loc\n");<br>
+    display(mnt,mntc,3);<br>
+    System.out.println("\n");<br>
+    System.out.println("ARGUMENT LIST ARRAY(ALA) for Pass1\n");<br>
+    display(ala,alac,2);<br>
+    System.out.println("\n");<br>
+    System.out.println("MACRO DEFINITION TABLE (MDT)\n");<br>
+    display(mdt,mdtc,1);<br>
+    System.out.println("\n");<br>
+    }<br>
+    static void pass1()<br>
+    {<br>
+    int index=0,i;<br>
+    String s,prev="",substring;<br>
+    try<br>
+    {<br>
+    BufferedReader inp = new BufferedReader(new FileReader("macroInput.txt"));<br>
+    File op = new File("pass1_output.txt");<br>
+    if (!op.exists())<br>
+    op.createNewFile();<br>
+    BufferedWriter output = new BufferedWriter(new FileWriter(op.getAbsoluteFile()));<br>
+    while((s=inp.readLine())!=null)<br>
+    {<br>
+    if(s.equalsIgnoreCase("MACRO"))<br>
+    {<br>
+    prev=s;<br>
+    for(;!(s=inp.readLine()).equalsIgnoreCase("MEND");mdtc++,prev=s)<br>
+    {<br>
+    if(prev.equalsIgnoreCase("MACRO"))<br>
+    {<br>
+    StringTokenizer st=new StringTokenizer(s);<br>
+    String str[]=new String[st.countTokens()];<br>
+    for(i=0;i<str.length;i++)<br>
+        str[i]=st.nextToken();<br>
+        mnt[mntc][0]=(mntc+1)+""; //mnt formation<br>
+        mnt[mntc][1]=str[0];<br>
+        mnt[mntc++][2]=(++mdtc)+"";<br>
+        st=new StringTokenizer(str[1],","); //tokenizing the arguments<br>
+        String string[]=new String[st.countTokens()];<br>
+        for(i=0;i<string.length;i++)<br>
+            {
+            string[i]=st.nextToken();<br>
+            ala[alac][0]=alac+""; //ala table formation<br>
+            index=string[i].indexOf("=");<br>
+            if(index!=-1)<br>
+            ala[alac++][1]=string[i].substring(0,index);<br>
+            else<br>
+            ala[alac++][1]=string[i];<br>
+            }<br>
+            }<br>
+            else<br>
+            { <br>
+            index=s.indexOf("&");<br>
+            substring=s.substring(index);<br>
+            for(i=0;i<alac;i++)<br>
+                if(ala[i][1].equals(substring))<br>
+                s=s.replaceAll(substring,"#"+ala[i][0]);<br>
+                }<br>
+                mdt[mdtc-1][0]=s;<br>
+                }<br>
+                mdt[mdtc-1][0]=s;<br>
+                }<br>
+                else<br>
+                {<br>
+                output.write(s);<br>
+                output.newLine();<br>
+                }<br>
+                }<br>
+                output.close();<br>
+                }<br>
+                catch(FileNotFoundException ex)<br>
+                {<br>
+                System.out.println("UNABLE TO END FILE ");<br>
+                }<br>
+                catch(IOException e)<br>
+                {<br>
+                e.printStackTrace();<br>
+                }<br>
+                }<br>
+                static void display(String a[][],int n,int m)<br>
+                {<br>
+                int i,j;<br>
+                for(i=0;i<n;i++)<br>
+                    {<br>
+                    for(j=0;j<m;j++)<br>
+                        System.out.print(a[i][j]+" ");<br>
+                        System.out.println();<br>
+                        }<br>
+                        }<br>
+                        }<br>
+
+</p>

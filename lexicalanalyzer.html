@@ -1,0 +1,28 @@
+<p>
+    %{<br>
+    %}<br>
+    letter [A-Za-z]<br>
+    digit [0-9]<br>
+    identifier {letter}({letter}|{digit})*<br>
+    number {digit}+<br>
+    punctuation [;,''#(){}]<br>
+    operators "+"|"-"|"*"|"="|">"|"<"<br>
+        keyword "if"|"else"|"for"|"int"|"while"|"do"|"void"<br>
+        literal \".*\"<br>
+        comment "//".*<br>
+        headerfile "#".*<br>
+        multicomment "/*".*"*/"<br>
+        %%<br>
+        {keyword} {printf("keyword %s is found",yytext);}<br>
+        {identifier} {printf("identifier %s is found",yytext);}<br>
+        {number} {printf("number %s is found",yytext);}<br>
+        {punctuation} {printf("punctuation %s is found",yytext);}<br>
+        %%<br>
+        int main(){<br>
+        yylex();<br>
+        }<br>
+        int yywrap(){<br>
+        return 1;<br>
+        }<br>
+
+</p>

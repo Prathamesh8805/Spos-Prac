@@ -1,0 +1,107 @@
+<h1>lit table</h1>
+<p>
+    5 206<br>
+
+    1 207<br>
+    1 213<br>
+</p>
+<h1>
+    sym table
+</h1>
+<p>
+    A 211 1 <br>
+    LOOP 202 1<br>
+    B 212 1<br>
+    NEXT 208 1<br>
+    BACK 202 1<br>
+    LAST 210 1<br>
+</p>
+<h1>intermidate Code</h1>
+<p>
+    (AD,01)(C,200)<br>
+    (IS,04)(1)(L,1)<br>
+    (IS,05)(1)(S,1)<br>
+    (IS,04)(1)(S,1)<br>
+    (IS,04)(3)(S,3)<br>
+    (IS,01)(3)(L,2)<br>
+    (IS,07)(6)(S,4)<br>
+    (DL,01)(C,5)<br>
+    (DL,01)(C,1)<br>
+    (IS,02)(1)(L,3)<br>
+    (IS,07)(1)(S,5)<br>
+    (IS,00)<br>
+    (AD,03)(S,2)+2<br>
+    (IS,03)(3)(S,3)<br>
+    (AD,03)(S,6)+1<br>
+    (DL,02)(C,1)<br>
+    (DL,02)(C,1)<br>
+    (AD,02)<br>
+    (DL,01)(C,1)<br>
+</p>
+<h1>java Code</h1>
+<p>
+    import java.io.BufferedReader;<br>
+    import java.io.FileReader;<br>
+    import java.io.FileWriter;<br>
+    import java.io.IOException;<br>
+    import java.util.HashMap;<br>
+
+    public class pass2 {<br>
+    public static void main(String[] Args) throws IOException{<br>
+    BufferedReader b1 = new BufferedReader(new FileReader("intermediate.txt"));<br>
+    BufferedReader b2 = new BufferedReader(new FileReader("symtab.txt"));<br>
+    BufferedReader b3 = new BufferedReader(new FileReader("littab.txt"));<br>
+    FileWriter f1 = new FileWriter("Pass2.txt");<br>
+    HashMap<Integer, String> symSymbol = new HashMap<Integer, String>();<br>
+            HashMap<Integer, String> litSymbol = new HashMap<Integer, String>();<br>
+                    HashMap<Integer, String> litAddr = new HashMap<Integer, String>();<br>
+                            String s;<br>
+                            int symtabPointer=1,littabPointer=1,offset;<br>
+                            while((s=b2.readLine())!=null){<br>
+                            String word[]=s.split("\t\t\t");<br>
+                            symSymbol.put(symtabPointer++,word[1]);<br>
+                            }<br>
+                            while((s=b3.readLine())!=null){<br>
+                            String word[]=s.split("\t\t");<br>
+                            litSymbol.put(littabPointer,word[0]);<br>
+                            litAddr.put(littabPointer++,word[1]);<br>
+                            }<br>
+                            while((s=b1.readLine())!=null){<br>
+                            if(s.substring(1,6).compareToIgnoreCase("IS,00")==0){<br>
+                            f1.write("+ 00 0 000\n");<br>
+                            }<br>
+                            else if(s.substring(1,3).compareToIgnoreCase("IS")==0){<br>
+                            f1.write("+ "+s.substring(4,6)+" ");<br>
+                            if(s.charAt(9)==')'){<br>
+                            f1.write(s.charAt(8)+" ");<br>
+                            offset=3;<br>
+                            }<br>
+                            else{<br>
+                            f1.write("0 ");<br>
+                            offset=0;<br>
+                            }<br>
+                            if(s.charAt(8+offset)=='S')<br>
+                            f1.write(symSymbol.get(Integer.parseInt(s.substring(10+offset,s.length()-1)))+"\n");<br>
+                            else<br>
+                            f1.write(litAddr.get(Integer.parseInt(s.substring(10+offset,s.length()-1)))+"\n");<br>
+                            }<br>
+                            else if(s.substring(1,6).compareToIgnoreCase("DL,01")==0){<br>
+                            String s1=s.substring(10,s.length()-1),s2="";<br>
+                            for(int i=0;i<3-s1.length();i++)<br>
+                                s2+="0";<br>
+                                s2+=s1;<br>
+                                f1.write("+ 00 0 "+s2+"\n");<br>
+                                }<br>
+                                else{<br>
+                                f1.write("\n");<br>
+                                }<br>
+                                }<br>
+                                f1.close();<br>
+                                b1.close();<br>
+                                b2.close();<br>
+                                b3.close();<br>
+                                }<br>
+
+                                }<br>
+
+</p>

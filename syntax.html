@@ -1,0 +1,55 @@
+<h1>
+    lex file
+</h1>
+<p>
+    %{<br>
+    #include<stdio.h> <br>
+        #include"y.tab.h"<br>
+        %}<br>
+        letter [A-Za-z]<br>
+        digit [0-9]<br>
+        keyword int|float|char<br>
+        identifier {letter}({letter}|{digit})*<br>
+        %%<br>
+        {keyword} return TYPE;<br>
+        "," return COMMA;<br>
+        ";" return SC;<br>
+        {identifier} return ID;<br>
+        "\n" return NL;<br>
+        %%<br>
+
+</p>
+<h1>yacc file</h1>
+<p>
+    %{<br>
+    #include<stdlib.h><br>
+        #include<stdio.h><br>
+            int yylex();<br>
+            int yyerror();<br>
+            %}<br>
+            %token TYPE COMMA SC ID NL;<br>
+            %%<br>
+            start : TYPE varlist SC NL<br>
+            {printf("Input is valid");}<br>
+            ;<br>
+            varlist: varlist COMMA ID<br>
+            |ID<br>
+            ;<br>
+            %%<br>
+            int main(){<br>
+            yyparse();<br>
+            }<br>
+            int yyerror(){<br>
+            printf("Invalid Statement");<br>
+            }<br>
+            int yywrap(){<br>
+            return 1;<br>
+            }<br>
+
+</p>
+<h1>
+    sample.c
+</h1>
+<p>
+    int a;
+</p>

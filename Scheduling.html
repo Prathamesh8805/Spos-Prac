@@ -1,0 +1,196 @@
+<h1>
+    FCFS
+
+</h1>
+<p>
+    import java.io.*;<br>
+    import java.util.Scanner;<br>
+    public class Fcfs {<br>
+    public static void main(String args[])<br>
+    {<br>
+    int i,no_p,burst_time[],TT[],WT[];<br>
+    float avg_wait=0,avg_TT=0;<br>
+    burst_time=new int[50];<br>
+    TT=new int[50];<br>
+    WT=new int[50];<br>
+    WT[0]=0;<br>
+    Scanner s=new Scanner(System.in);<br>
+    System.out.println("Enter the number of process:");<br>
+    no_p=s.nextInt();<br>
+    System.out.println("\nEnter Burst Time for processes: ");<br>
+    for(i=0;i<no_p;i++)<br>
+        {<br>
+        System.out.print("\tP"+(i+1)+": ");<br>
+        burst_time[i]=s.nextInt();<br>
+        }<br>
+        for(i=1;i<no_p;i++)<br>
+            {<br>
+            WT[i]=WT[i-1]+burst_time[i-1];<br>
+            avg_wait+=WT[i];<br>
+            }<br>
+            avg_wait/=no_p;<br>
+            for(i=0;i<no_p;i++)<br>
+                {<br>
+                TT[i]=WT[i]+burst_time[i];<br>
+                avg_TT+=TT[i];<br>
+                }<br>
+
+                avg_TT/=no_p;<br>
+
+                System.out.println("\n****************************************************************");<br>
+
+                System.out.println("\tProcesses: ");<br>
+
+                System.out.println("****************************************************************");<br>
+                System.out.println("Process\tBurst Time\tWaiting Time\tTurn Around Time");<br>
+                for(i=0;i<no_p;i++)<br>
+                    {<br>
+                    System.out.println("\tP"+(i+1)+"\t"+burst_time[i]+"\t\t"+WT[i]+"\t\t"+TT[i]);<br>
+                    }<br>
+                    System.out.println("\n----------------------------------------------------------------");<br>
+                    System.out.println("\nAverage waiting time : "+avg_wait);<br>
+                    System.out.println("\nAverage Turn Around time : "+avg_TT+"\n");<br>
+                    }<br>
+                    }<br>
+
+</p>
+<h1>
+    Priority
+</h1>
+<p>
+    import java.util.Scanner;<br>
+
+    public class Priority {<br>
+    public static void main(String args[]) {<br>
+    Scanner s = new Scanner(System.in);<br>
+    int x,n,p[],pp[],bt[],w[],t[],i;<br>
+    float awt,atat;<br>
+    p = new int[10];<br>
+    pp = new int[10];<br>
+    bt = new int[10];<br>
+
+    w = new int[10];<br>
+    t = new int[10];<br>
+
+    System.out.print("Enter the number of process : ");<br>
+    n = s.nextInt();<br>
+    System.out.print("\n\t Enter CPU time---priority \n");<br>
+    for(i=0;i<n;i++)<br>
+        {
+        System.out.print("\nProcess["+(i+1)+"]:");<br>
+        bt[i] = s.nextInt();<br>
+        pp[i] = s.nextInt();p[i]=i+1;<br>
+        }<br>
+        for(i=0;i<n-1;i++)<br>
+            {<br>
+            for(int j=i+1;j<n;j++)<br>
+                {<br>
+                if(pp[i]<pp[j])<br>
+                    {<br>
+                    x=pp[i];<br>
+                    pp[i]=pp[j];<br>
+                    pp[j]=x;<br>
+                    x=bt[i];<br>
+                    bt[i]=bt[j];<br>
+                    bt[j]=x;<br>
+                    x=p[i];<br>
+                    p[i]=p[j];<br>
+                    p[j]=x;<br>
+                    }<br>
+                    }<br>
+                    }<br>
+                    w[0]=0;<br>
+                    awt=0;<br>
+                    t[0]=bt[0];<br>
+                    atat=t[0];<br>
+                    for(i=1;i<n;i++)<br>
+                        {<br>
+                        w[i]=t[i-1];<br>
+                        awt+=w[i];<br>
+                        t[i]=w[i]+bt[i];<br>
+                        atat+=t[i];<br>
+                        }<br>
+
+                        System.out.println("-----------------------------------------------------------------------");<br>
+                        System.out.print("\n\nProcess \t\t |Burst Time \t\t |Wait Time \t\t |Turn Time \n");<br>
+                        System.out.println("-----------------------------------------------------------------------");<br>
+                        for(i=0;i<n;i++)<br><br>
+                            System.out.print("\n"+p[i]+"\t\t| "+bt[i]+"\t\t| "+w[i]+"\t\t|"+t[i]+"\t\t|
+                            "+pp[i]+"\n");<br>
+                            System.out.println("-----------------------------------------------------------------------");<br>
+                            awt/=n;<br>
+                            atat/=n;<br>
+                            System.out.print("\n Average Wait Time : "+awt);<br>
+                            System.out.print("\n Average Turn Around Time : "+atat);<br>
+                            }<br>
+                            }<br>
+
+</p>
+<h1>
+    SIF
+</h1>
+<p>
+    import java.util.Scanner;<br>
+    public class Sjf {<br>
+    public static void main(String args[]){<br>
+    int burst_time[],process[],waiting_time[],tat[],i,j,n,total=0,pos,temp;<br>
+    float wait_avg,TAT_avg;<br>
+    Scanner s = new Scanner(System.in);<br>
+    System.out.print("Enter number of process: ");<br>
+    n = s.nextInt();<br>
+    process = new int[n];<br>
+    burst_time = new int[n];<br>
+    waiting_time = new int[n];<br>
+    tat = new int[n];<br>
+    System.out.println("\nEnter Burst time:");<br>
+    for(i=0;i<n;i++)<br>
+        {<br>
+        System.out.print("\nProcess["+(i+1)+"]:");<br>
+        burst_time[i] = s.nextInt();;<br>
+        process[i]=i+1; //Process Number<br>
+        }<br>
+
+        for(i=0;i<n;i++)<br>
+            {<br>
+            pos=i;<br>
+            for(j=i+1;j<n;j++)<br>
+                {<br>
+                if(burst_time[j]<burst_time[pos])<br>
+                    pos=j;<br>
+                    }<br>
+                    temp=burst_time[i];<br>
+                    burst_time[i]=burst_time[pos];<br>
+                    burst_time[pos]=temp;<br>
+                    temp=process[i];<br>
+                    process[i]=process[pos];<br>
+                    process[pos]=temp;<br>
+                    }<br>
+
+                    waiting_time[0]=0;<br>
+
+                    for(i=1;i<n;i++)<br>
+                        {<br>
+                        waiting_time[i]=0;<br>
+                        for(j=0;j<i;j++)<br>
+                            waiting_time[i]+=burst_time[j];<br>
+                            total+=waiting_time[i];<br>
+                            }<br>
+
+                            wait_avg=(float)total/n;<br>
+                            total=0;<br>
+                            System.out.println("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");<br>
+                            for(i=0;i<n;i++)<br>
+                                {<br>
+                                tat[i]=burst_time[i]+waiting_time[i]; <br>
+                                total+=tat[i];<br>
+                                System.out.println("\n p"+process[i]+"\t\t "+burst_time[i]+"\t\t "+waiting_time[i]+"\t\t
+                                "+tat[i]);<br>
+                                }<br>
+                                <br>
+                                TAT_avg=(float)total/n;<br>
+                                System.out.println("\n\nAverage Waiting Time: "+wait_avg);<br>
+                                System.out.println("\nAverage Turnaround Time: "+TAT_avg);<br>
+                                }<br>
+                                }<br>
+
+</p>

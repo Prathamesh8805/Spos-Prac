@@ -1,0 +1,182 @@
+<h1>Input file</h1>
+<p>
+    START 100 <br>
+    READ A <br>
+    LABLE MOVER A,B <br>
+    LTORG <br>
+    ='5' <br>
+    ='1' <br>
+    ='6' <br>
+    ='7' <br>
+    MOVEM A,B <br>
+    LTORG <br>
+    ='2' <br>
+    LOOP READ B <br>
+    A DS 1 <br>
+    B DC '1' <br>
+    ='1' <br>
+    END <br>
+
+</p>
+<h1>Java Code</h1>
+<p>
+    import java.io.BufferedReader;<br>
+    import java.io.FileReader;<br>
+    import java.util.Scanner;<br>
+
+    public class pass1 {<br>
+    public static void main(String args[])throws Exception<br>
+    {<br>
+    // Made a file in the project itself and imported it here rather than keeping it in the Desktop and then
+    importing<br>
+    FileReader FP=new FileReader("input1.txt");<br>
+    BufferedReader bufferedReader = new BufferedReader(FP); <br>
+
+    String line=null;<br>
+    int line_count=0,LC=0,symTabLine=0,opTabLine=0,litTabLine=0,poolTabLine=0;<br>
+
+    // Data Structures<br>
+    final int MAX=100;<br>
+    String SymbolTab[][]=new String[MAX][3];<br>
+    String OpTab[][]=new String[MAX][3];<br>
+    String LitTab[][]=new String[MAX][2];<br>
+    int PoolTab[]=new int[MAX];<br>
+    int litTabAddress=0;<br>
+
+    // System.out.println(___________________________________________________);<br>
+    while((line = bufferedReader.readLine()) != null)<br>
+    {<br>
+
+    String[] tokens = line.split("\t");<br>
+    if(line_count==0)<br>
+    {<br>
+    LC=Integer.parseInt(tokens[1]); <br>
+    //set LC to operand of START<br>
+    for(int i=0;i<tokens.length;i++)<br>
+        System.out.print(tokens[i]+"\t");<br>
+        System.out.println();<br>
+        }
+        else
+        {
+        for(int i=0;i<tokens.length;i++) <br>
+            System.out.print(tokens[i]+"\t");<br>
+            System.out.println();<br>
+            if(!tokens[0].equals(""))<br>
+            {<br>
+
+            // Inserting into Symbol Table<br>
+            SymbolTab[symTabLine][0]=tokens[0];<br>
+            SymbolTab[symTabLine][1]=Integer.toString(LC);<br>
+            SymbolTab[symTabLine][2]=Integer.toString(1);<br>
+            symTabLine++;<br>
+            }<br>
+            else if(tokens[1].equalsIgnoreCase("DS")||tokens[1].equalsIgnoreCase("DC"))<br>
+            {<br>
+            // Entry into symbol table for declarative statements<br>
+            SymbolTab[symTabLine][0]=tokens[0];<br>
+            SymbolTab[symTabLine][1]=Integer.toString(LC);<br>
+            SymbolTab[symTabLine][2]=Integer.toString(1);<br>
+            symTabLine++;<br>
+            }<br>
+
+            if(tokens.length==3 && tokens[2].charAt(0)=='=')<br>
+            {<br>
+            // Entry of literals into literal table<br>
+            LitTab[litTabLine][0]=tokens[2];<br>
+            LitTab[litTabLine][1]=Integer.toString(LC);<br>
+            litTabLine++;<br>
+            }<br>
+
+            else if(tokens[1]!=null)<br>
+            {<br>
+            // Entry of Mnemonic in opcode table<br>
+            OpTab[opTabLine][0]=tokens[1];<br>
+
+            if(tokens[1].equalsIgnoreCase("START")||tokens[1].equalsIgnoreCase("END")||tokens[1].equalsIgnoreCase("ORIGIN")||tokens[1].equalsIgnoreCase("EQU")||tokens[1].equalsIgnoreCase("LTORG"))<br>
+            // if Assembler Directive<br>
+            {<br>
+            OpTab[opTabLine][1]="AD";<br>
+            OpTab[opTabLine][2]="R11"; <br>
+            } <br>
+            else if(tokens[1].equalsIgnoreCase("DS")||tokens[1].equalsIgnoreCase("DC"))<br>
+            {<br>
+            OpTab[opTabLine][1]="DL";<br>
+            OpTab[opTabLine][2]="R7"; <br>
+            }<br>
+            else<br>
+            {<br>
+            OpTab[opTabLine][1]="IS";<br>
+            OpTab[opTabLine][2]="(04,1)";<br>
+            }<br>
+            opTabLine++;<br>
+            }<br>
+            }<br>
+            line_count++;<br>
+            LC++;<br>
+            }<br>
+
+            System.out.println("___________________________________________________"); <br>
+
+            // print symbol table<br>
+            System.out.println("\n\n SYMBOL TABLE ");<br>
+            System.out.println("--------------------------"); <br>
+            System.out.println("SYMBOL\tADDRESS\tLENGTH");<br>
+            System.out.println("--------------------------"); <br>
+            for(int i=0;i<symTabLine;i++) <br>
+                System.out.println(SymbolTab[i][0]+"\t"+SymbolTab[i][1]+"\t"+SymbolTab[i][2]);<br>
+                System.out.println("--------------------------");<br>
+
+
+                // print opcode table<br>
+                System.out.println("\n\n OPCODE TABLE ");<br>
+                System.out.println("----------------------------"); <br>
+                System.out.println("MNEMONIC\tCLASS\tINFO");<br>
+                System.out.println("----------------------------"); <br>
+                for(int i=0;i<opTabLine;i++) <br>
+                    System.out.println(OpTab[i][0]+"\t\t"+OpTab[i][1]+"\t"+OpTab[i][2]);<br>
+                    System.out.println("----------------------------");<br>
+
+                    // print literal table<br>
+                    System.out.println("\n\n LITERAL TABLE ");<br>
+                    System.out.println("-----------------"); <br>
+                    System.out.println("LITERAL\tADDRESS");<br>
+                    System.out.println("-----------------"); <br>
+                    for(int i=0;i<litTabLine;i++) <br>
+                        System.out.println(LitTab[i][0]+"\t"+LitTab[i][1]);<br>
+                        System.out.println("------------------");<br>
+
+
+
+                        for(int i=0;i<litTabLine;i++)<br>
+                            {
+                            if(LitTab[i][0]!=null && LitTab[i+1][0]!=null )<br>
+                            // if literals are present<br>
+                            {<br>
+                            if(i==0)<br>
+                            {<br>
+                            PoolTab[poolTabLine]=i+1;<br>
+                            poolTabLine++;<br>
+                            }<br>
+                            else if(Integer.parseInt(LitTab[i][1])<(Integer.parseInt(LitTab[i+1][1]))-1)<br>
+                                { <br>
+                                PoolTab[poolTabLine]=i+2;<br>
+                                poolTabLine++;<br>
+                                }<br>
+                                }<br>
+                                }
+                                // print pool table<br>
+                                System.out.println("\n\n POOL TABLE ");<br>
+                                System.out.println("-----------------"); <br>
+                                System.out.println("LITERAL NUMBER");<br>
+                                System.out.println("-----------------"); <br>
+                                for(int i=0;i<poolTabLine;i++) <br>
+                                    System.out.println(PoolTab[i]);<br>
+                                    System.out.println("------------------");<br>
+
+
+                                    // Always close files.<br>
+                                    bufferedReader.close();<br>
+                                    }<br>
+                                    }<br>
+
+</p>
